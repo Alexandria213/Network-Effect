@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ispy_game/home_screen.dart';
+import 'package:ispy_game/image_selection_screen.dart';
+import 'package:ispy_game/send_image_screen.dart';
 
 void main() {
   runApp(EyeSpy());
