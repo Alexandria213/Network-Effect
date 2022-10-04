@@ -46,20 +46,20 @@ class _SendImageScreenState extends State<SendImageScreen> {
               });
             },
             child: Container(
-              width: 200,
-              height: 200,
+              width: 300,
+              height: 400,
               decoration: BoxDecoration(color: Colors.blue[200]),
               child: _image != null
                   ? Image.file(
                       _image,
-                      width: 200.0,
-                      height: 200.0,
+                      width: 300.0,
+                      height: 400.0,
                       fit: BoxFit.fitHeight,
                     )
                   : Container(
                       decoration: BoxDecoration(color: Colors.blue[200]),
-                      width: 200,
-                      height: 200,
+                      width: 300,
+                      height: 400,
                       child: Icon(
                         Icons.camera_alt,
                         color: Colors.grey[800],

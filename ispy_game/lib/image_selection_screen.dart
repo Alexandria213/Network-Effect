@@ -15,7 +15,7 @@ class SelectImageScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Profile Picture for Blog"),
+          title: const Text("Image Selection"),
         ),
         body: Center(
           child: Column(
