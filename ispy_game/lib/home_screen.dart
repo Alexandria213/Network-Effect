@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ispy_game/image_selection_screen.dart';
-import 'package:ispy_game/send_image_screen.dart';
+import 'package:ispy_game/server.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -53,49 +53,48 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Home Screen"),
-        ),
-        body: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const SelectImageScreen(),
-                        ),
-                      );
-                    },
-                    child: const Text("Share an Image"),
-                  ),
+      appBar: AppBar(
+        title: const Text("Eye Spy"),
+      ),
+      body: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const SelectImageScreen(),
+                      ),
+                    );
+                  },
+                  child: const Text("Share an Image"),
                 ),
-                Expanded(
-                  child: TextButton(
-                    onPressed: () {},
-                    child: const Text("Respond to a Guess"),
-                  ),
+              ),
+              Expanded(
+                child: TextButton(
+                  onPressed: () {
+                    _displayTextInputDialog(context);
+                  },
+                  child: const Text("Respond to a Guess"),
                 ),
-                Expanded(
-                  child: TextButton(
-                    onPressed: () {},
-                    child: const Text("Respond to an Image"),
-                  ),
-                )
-              ],
-            ),
-            Row(
-              children: const [
-                Center(
-                  child: Text("Game Chat"),
-                )
-              ],
-            )
-          ],
-        )
-        //Game chat,
-        );
+              ),
+              Expanded(
+                child: TextButton(
+                  onPressed: () {
+                    _displayTextInputDialog(context);
+                  },
+                  child: const Text("Respond to an Image"),
+                ),
+              )
+            ],
+          ),
+          Expanded(
+            child: Server(title: "Game Chat"),
+          ),
+        ],
+      ),
+    );
   }
 }
