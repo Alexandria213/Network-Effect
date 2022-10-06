@@ -78,11 +78,11 @@ class Friend extends ChangeNotifier {
               color: is_me ? Color(0xFFE8E8EE) : Color(0xFF1B97F3),
               tail: false,
               textStyle: is_me
-                  ? TextStyle(
+                  ? const TextStyle(
                       fontSize: 15,
                       color: Colors.black,
                     )
-                  : TextStyle(
+                  : const TextStyle(
                       fontSize: 15,
                       color: Colors.white,
                     ),

@@ -1,55 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:ispy_game/image_selection_screen.dart';
 import 'package:ispy_game/server.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class Home extends StatefulWidget {
+  const Home({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  _HomeState createState() => _HomeState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  // Text input window when guessing or responding
-  Future<void> _displayTextInputDialog(BuildContext context) async {
-    print("Loading Dialog");
-    return showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Guess'),
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            // position
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              TextField(
-                onChanged: (value) {
-                  setState(
-                    () {
-                      value = value;
-                    },
-                  );
-                },
-                //controller: _spyInputController,
-                decoration: const InputDecoration(hintText: "Content"),
-              ),
-              ElevatedButton(
-                key: const Key("OKButton"),
-                child: const Text('OK'),
-                onPressed: () {
-                  setState(
-                    () {},
-                  );
-                },
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
+class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,41 +17,20 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Column(
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const SelectImageScreen(),
-                      ),
-                    );
-                  },
-                  child: const Text("Share an Image"),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => Server(),
                 ),
-              ),
-              Expanded(
-                child: TextButton(
-                  onPressed: () {
-                    _displayTextInputDialog(context);
-                  },
-                  child: const Text("Respond to a Guess"),
-                ),
-              ),
-              Expanded(
-                child: TextButton(
-                  onPressed: () {
-                    _displayTextInputDialog(context);
-                  },
-                  child: const Text("Respond to an Image"),
-                ),
-              )
-            ],
+              );
+            },
+            child: const Text('Play Game'),
           ),
-          Expanded(
-            child: Server(title: "Game Chat"),
-          ),
+          ElevatedButton(
+            onPressed: () {},
+            child: const Text('Potential Scoring'),
+          )
         ],
       ),
     );
