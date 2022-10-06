@@ -11,9 +11,7 @@ import 'game_chat.dart';
 import 'list_friends.dart';
 
 class Server extends StatefulWidget {
-  Server({super.key, required this.title});
-
-  final String title;
+  Server({super.key});
 
   @override
   _ServerState createState() => _ServerState();
@@ -45,7 +43,7 @@ class _ServerState extends State<Server> {
     // Thank you https://stackoverflow.com/questions/52411168/how-to-get-device-ip-in-dart-flutter
     String? ip = await NetworkInfo().getWifiIP();
     setState(() {
-      _ipaddress = "My IP: " + ip!;
+      _ipaddress = "My IP: ${ip!}";
     });
   }
 
@@ -159,7 +157,7 @@ class _ServerState extends State<Server> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: const Text("Current Game Chats"),
       ),
       body: Center(
         child: ListView(
@@ -183,8 +181,8 @@ class _ServerState extends State<Server> {
         child: const Icon(Icons.add),
       ),
       bottomNavigationBar: Padding(
-        padding: EdgeInsets.all(10),
-        child: Container(
+        padding: const EdgeInsets.all(10),
+        child: SizedBox(
           width: double.infinity,
           child: Text(
             _ipaddress!,

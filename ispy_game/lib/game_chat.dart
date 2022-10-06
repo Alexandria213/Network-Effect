@@ -1,6 +1,7 @@
 import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:flutter/material.dart';
 
+import 'package:ispy_game/image_selection_screen.dart';
 import 'friends.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -13,6 +14,46 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  // Text input window when guessing or responding
+  Future<void> _displayTextInputDialog(BuildContext context) async {
+    print("Loading Dialog");
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Guess'),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            // position
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              TextField(
+                onChanged: (value) {
+                  setState(
+                    () {
+                      value = value;
+                    },
+                  );
+                },
+                //controller: _spyInputController,
+                decoration: const InputDecoration(hintText: "Content"),
+              ),
+              ElevatedButton(
+                key: const Key("OKButton"),
+                child: const Text('OK'),
+                onPressed: () {
+                  setState(
+                    () {},
+                  );
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   void initState() {
     super.initState();
     widget.friend!.addListener(update);
@@ -47,7 +88,31 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const SelectImageScreen(),
+                        ),
+                      );
+                    },
+                    child: const Text("Share an Image"),
+                  ),
+                ),
+                Expanded(
+                  child: TextButton(
+                    onPressed: () {
+                      _displayTextInputDialog(context);
+                    },
+                    child: const Text("Respond to a Guess"),
+                  ),
+                ),
+              ],
+            ),
             Expanded(child: widget.friend!.bubble_history()),
             MessageBar(onSend: (_) => send(_)),
           ],
