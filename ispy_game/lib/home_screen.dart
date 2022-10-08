@@ -15,7 +15,8 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: const Text("Eye Spy"),
       ),
-      body: Column(
+      body: Center(child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ElevatedButton(
             onPressed: () {
@@ -33,6 +34,7 @@ class _HomeState extends State<Home> {
           )
         ],
       ),
+    )
     );
   }
 }
