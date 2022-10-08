@@ -19,10 +19,11 @@ class SelectImageScreen extends StatelessWidget {
         ),
         body: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               MaterialButton(
                 key: const Key("GalleryButton"),
-                color: Colors.blue,
+                color: Colors.green,
                 child: const Text(
                   "Pick an Image!",
                   style: TextStyle(
@@ -34,7 +35,7 @@ class SelectImageScreen extends StatelessWidget {
               ),
               MaterialButton(
                 key: const Key("CameraButton"),
-                color: Colors.blue,
+                color: Colors.green,
                 child: const Text(
                   "Take a Picture!",
                   style: TextStyle(
