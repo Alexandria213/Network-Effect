@@ -15,7 +15,7 @@ class EyeSpy extends StatelessWidget {
       title: 'Eye Spy',
       theme: ThemeData(
         // This is the theme of your application.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
       ),
       home: const Home(),
     );
