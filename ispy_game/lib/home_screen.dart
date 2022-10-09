@@ -19,6 +19,7 @@ class _HomeState extends State<Home> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ElevatedButton(
+            key: const Key("PlayGameButton"),
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
