@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ispy_game/image_selection_screen.dart';
 import 'friends.dart';
+
+import 'package:ispy_game/send_image_screen.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key, required this.friend});
@@ -70,8 +74,8 @@ class _ChatScreenState extends State<ChatScreen> {
     setState(() {});
   }
 
-  Future<void> send(String msg) async {
-    await widget.friend!.send(msg).catchError((e) {
+  Future<void> sendPic(String msg, File? image) async {
+    await widget.friend!.sendPic(msg, image).catchError((e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("Error: $e"),
       ));
@@ -114,7 +118,9 @@ class _ChatScreenState extends State<ChatScreen> {
               ],
             ),
             Expanded(child: widget.friend!.bubble_history()),
-            MessageBar(onSend: (_) => send(_)),
+
+            //NEED ACCESS TO THE IMAGE TO SEND IN THE sendPic method
+            //MessageBar(onSend: (_) => sendPic(_, SendImageScreen(type).imageFile)
           ],
         ),
       ),
