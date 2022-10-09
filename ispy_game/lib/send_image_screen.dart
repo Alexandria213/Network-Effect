@@ -1,11 +1,16 @@
 import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
+
 import 'image_selection_screen.dart';
+import 'package:ispy_game/game_chat.dart';
 
 class SendImageScreen extends StatefulWidget {
-  const SendImageScreen(this.type, {super.key});
+  SendImageScreen(this.type, {super.key, this.imageFile});
   final type;
+  final imageFile;
 
   @override
   _SendImageScreenState createState() => _SendImageScreenState(type);
@@ -13,17 +18,29 @@ class SendImageScreen extends StatefulWidget {
 
 class _SendImageScreenState extends State<SendImageScreen> {
   final TextEditingController _spyInputController = TextEditingController();
-  ImagePicker _picker = ImagePicker();
-  static var _image;
+  ImagePicker picker = ImagePicker();
   String spy = "";
   var type;
+  static var _image;
+
+  File? imageFile;
 
   _SendImageScreenState(this.type);
+
+  File? getImage() {
+    picker.pickImage(source: type).then((file) {
+      if (file != null) {
+        imageFile = File(file.path);
+        return imageFile;
+      }
+    });
+    return null;
+  }
 
   @override
   void initState() {
     super.initState();
-    _picker = ImagePicker();
+    picker = ImagePicker();
   }
 
   @override
@@ -37,7 +54,7 @@ class _SendImageScreenState extends State<SendImageScreen> {
               var source = type == ImageSourceType.camera
                   ? ImageSource.camera
                   : ImageSource.gallery;
-              XFile? image = await _picker.pickImage(
+              XFile? image = await picker.pickImage(
                   source: source,
                   imageQuality: 50,
                   preferredCameraDevice: CameraDevice.front);
@@ -78,8 +95,22 @@ class _SendImageScreenState extends State<SendImageScreen> {
           ),
           Row(
             children: [
-              TextButton(onPressed: () {}, child: const Text("Cancel")),
-              TextButton(onPressed: () {}, child: const Text("OK"))
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Cancel")),
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const ChatScreen(
+                          friend: null,
+                        ),
+                      ),
+                    );
+                  },
+                  child: const Text("Send"))
             ],
           )
         ],

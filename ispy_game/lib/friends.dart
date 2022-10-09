@@ -29,6 +29,12 @@ class Friends extends Iterable<String> {
       print("added $newFriend!");
     }
     _ips2Friends[ip]!.receive(message);
+
+    // if (image == null) {
+    //   _ips2Friends[ip]!.receive(message);
+    // } else {
+    //   _ips2Friends[ip]!.receivePic(message, image);
+    // }
   }
 
   @override
@@ -42,20 +48,53 @@ class Friend extends ChangeNotifier {
 
   Friend({required this.ipAddr, required this.name});
 
-  Future<void> send(String message) async {
+  Future<void> sendPic(String message, File? image) async {
     Socket socket = await Socket.connect(ipAddr, ourPort);
     socket.write(message);
+    Container(
+      width: 50,
+      height: 50,
+      decoration: BoxDecoration(color: Colors.blue[200]),
+      child: image != null
+          ? Image.file(
+              image,
+              width: 50.0,
+              height: 50.0,
+              fit: BoxFit.fitHeight,
+            )
+          : Container(
+              decoration: BoxDecoration(color: Colors.blue[200]),
+              width: 50,
+              height: 50,
+              child: Icon(
+                Icons.camera_alt,
+                color: Colors.grey[800],
+              ),
+            ),
+    );
     socket.close();
-    await _add_message("Me", message);
+    await _add_message_and_pic("Me", message, image);
   }
 
   Future<void> receive(String message) async {
     return _add_message(name, message);
   }
 
+  Future<void> receivePic(String message, File? image) async {
+    return _add_message(name, message);
+  }
+
   Future<void> _add_message(String name, String message) async {
     await m.protect(() async {
       _messages.add(Message(author: name, content: message));
+      notifyListeners();
+    });
+  }
+
+  Future<void> _add_message_and_pic(
+      String name, String message, File? image) async {
+    await m.protect(() async {
+      _messages.add(Message(author: name, content: message, image: image));
       notifyListeners();
     });
   }
@@ -71,13 +110,13 @@ class Friend extends ChangeNotifier {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       children: _messages
           .map((m) {
-            bool is_me = m.author == "Me";
+            bool isMe = m.author == "Me";
             return BubbleNormal(
               text: m.content,
-              isSender: is_me,
-              color: is_me ? Color(0xFFE8E8EE) : Color(0xFF1B97F3),
+              isSender: isMe,
+              color: isMe ? const Color(0xFFE8E8EE) : const Color(0xFF1B97F3),
               tail: false,
-              textStyle: is_me
+              textStyle: isMe
                   ? const TextStyle(
                       fontSize: 15,
                       color: Colors.black,
@@ -99,8 +138,9 @@ class Friend extends ChangeNotifier {
 class Message {
   final String content;
   final String author;
+  final File? image;
 
-  const Message({required this.author, required this.content});
+  const Message({required this.author, required this.content, this.image});
 
   String get transcript => '$author: $content';
 }
