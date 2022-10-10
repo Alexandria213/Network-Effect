@@ -1,6 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
+
 import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mutex/mutex.dart';
 
 const int ourPort = 8888;
@@ -29,12 +32,6 @@ class Friends extends Iterable<String> {
       print("added $newFriend!");
     }
     _ips2Friends[ip]!.receive(message);
-
-    // if (image == null) {
-    //   _ips2Friends[ip]!.receive(message);
-    // } else {
-    //   _ips2Friends[ip]!.receivePic(message, image);
-    // }
   }
 
   @override
@@ -48,53 +45,28 @@ class Friend extends ChangeNotifier {
 
   Friend({required this.ipAddr, required this.name});
 
-  Future<void> sendPic(String message, File? image) async {
+  Future<void> send(String message, File? image) async {
     Socket socket = await Socket.connect(ipAddr, ourPort);
     socket.write(message);
-    Container(
-      width: 50,
-      height: 50,
-      decoration: BoxDecoration(color: Colors.blue[200]),
-      child: image != null
-          ? Image.file(
-              image,
-              width: 50.0,
-              height: 50.0,
-              fit: BoxFit.fitHeight,
-            )
-          : Container(
-              decoration: BoxDecoration(color: Colors.blue[200]),
-              width: 50,
-              height: 50,
-              child: Icon(
-                Icons.camera_alt,
-                color: Colors.grey[800],
-              ),
-            ),
-    );
+    if (image != null) {
+      final imageBytes = await rootBundle.load(image.path);
+      final bytesAsString = base64Encode(imageBytes.buffer
+          .asUint8List(imageBytes.offsetInBytes, imageBytes.lengthInBytes));
+      print(bytesAsString);
+      //write bytes to socket
+      socket.write("$bytesAsString\n");
+    }
     socket.close();
-    await _add_message_and_pic("Me", message, image);
+    await _add_message("Me", message);
   }
 
   Future<void> receive(String message) async {
     return _add_message(name, message);
   }
 
-  Future<void> receivePic(String message, File? image) async {
-    return _add_message(name, message);
-  }
-
   Future<void> _add_message(String name, String message) async {
     await m.protect(() async {
       _messages.add(Message(author: name, content: message));
-      notifyListeners();
-    });
-  }
-
-  Future<void> _add_message_and_pic(
-      String name, String message, File? image) async {
-    await m.protect(() async {
-      _messages.add(Message(author: name, content: message, image: image));
       notifyListeners();
     });
   }
@@ -138,9 +110,8 @@ class Friend extends ChangeNotifier {
 class Message {
   final String content;
   final String author;
-  final File? image;
 
-  const Message({required this.author, required this.content, this.image});
+  const Message({required this.author, required this.content});
 
   String get transcript => '$author: $content';
 }

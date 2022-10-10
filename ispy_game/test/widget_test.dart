@@ -13,6 +13,7 @@ import 'package:ispy_game/game_chat.dart';
 import 'package:ispy_game/home_screen.dart';
 import 'package:ispy_game/image_selection_screen.dart';
 import 'package:ispy_game/list_friends.dart';
+import 'package:ispy_game/scoring.dart';
 import 'package:ispy_game/send_image_screen.dart';
 import 'package:ispy_game/server.dart';
 
@@ -28,7 +29,9 @@ void main() {
     expect(find.byType(FriendListItem), findsOneWidget);
     expect(find.byKey(const Key("AddFriend")), findsOneWidget);
   });
-
+  testWidgets('Scoring page works', (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: Scoring()));
+  });
   testWidgets('Add Friend and check buttons', (tester) async {
     // add friend
     await tester.pumpWidget(MaterialApp(home: Server()));
@@ -67,12 +70,12 @@ void main() {
   test('SendImageScreen and camera type check', () {
     var type = ImageSourceType.camera;
 
-    SendImageScreen imageFromGallery = SendImageScreen(type);
+    SendImageScreen imageFromGallery = const SendImageScreen();
     expect(type, ImageSourceType.camera);
 
     var type2 = ImageSourceType.gallery;
 
-    SendImageScreen imageFromGallery2 = SendImageScreen(type2);
+    SendImageScreen imageFromGallery2 = const SendImageScreen();
     expect(type2, ImageSourceType.gallery);
   });
 }

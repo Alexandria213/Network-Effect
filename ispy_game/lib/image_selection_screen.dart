@@ -8,7 +8,7 @@ class SelectImageScreen extends StatelessWidget {
 
   void _handleURLButtonPress(BuildContext context, var type) {
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) => SendImageScreen(type)));
+        MaterialPageRoute(builder: (context) => const SendImageScreen()));
   }
 
   @override
