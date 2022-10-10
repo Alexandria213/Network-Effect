@@ -1,14 +1,14 @@
 # EyeSpy Game
 
-**Who is the audience for this app?
+**Who is the audience for this app?**
 
 Eye_Spy game is a kids' game but it can also be used for entertainment by anyone. Friends can play together by sending each other images with captions that ask another play to guess something in the picture. 
 
-**What the app does?
+**What the app does?**
 
 EyeSpy Game app has multiple screens that allow two users to send text and images. The home screen has two buttons that allow the user to start playing the game and view their scores. As two players send each other photos and captions of aksing another play to guess something in the photo, each play can track their scores. One player may start with sending an image with the caption of I spy..... and another player replies with a guess. the first play gets to decide if the guess is correct or incorrect. Then, they score increases if the guess is correct. 
 
-**Why the app is useful?
+**Why the app is useful?**
 
 This app can be used to strenghten friendships between individuals through having fun. It also helps children to develop social skills, cognitive skills, and improves language and vocabulary. 
 
