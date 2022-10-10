@@ -4,12 +4,13 @@ import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ispy_game/image_selection_screen.dart';
+import 'package:ispy_game/scoring.dart';
 import 'friends.dart';
 
 import 'package:ispy_game/send_image_screen.dart';
 
 class ChatScreen extends StatefulWidget {
-  ChatScreen({super.key, required this.friend});
+  const ChatScreen({super.key, required this.friend});
 
   final Friend? friend;
 
@@ -18,9 +19,12 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  final SendImageScreen imgscreen = const SendImageScreen();
+  final SendImageScreen imgscreen = SendImageScreen(type);
   static const List<String> list = <String>['Correct', 'Incorrect'];
   String dropdownValue = list.first;
+  final Scoring score = Scoring();
+
+  static get type => ImageSourceType.camera;
 
   // Text input window when guessing or responding
   Future<void> _displayRespondToGuessDialog(BuildContext context) async {
@@ -32,17 +36,17 @@ class _ChatScreenState extends State<ChatScreen> {
           title: const Text('Respond to Guess'),
           content: Column(
             children: [
-              DropdownButton<String>(
+              DropdownButtonFormField<String>(
                 value: dropdownValue,
-                icon: const Icon(Icons.arrow_downward),
-                elevation: 16,
                 style: const TextStyle(color: Colors.deepPurple),
-                underline: Container(
-                  height: 2,
-                  color: Colors.deepPurpleAccent,
-                ),
                 onChanged: (String? value) {
                   // This is called when the user selects an item.
+                  setState(() {
+                    dropdownValue = value!;
+                  });
+                },
+                onSaved: (String? value) {
+                  // This is called when the selection is saved.
                   setState(() {
                     dropdownValue = value!;
                   });
@@ -72,6 +76,11 @@ class _ChatScreenState extends State<ChatScreen> {
                   setState(
                     () {
                       send(dropdownValue, null);
+                      if (dropdownValue == 'Correct') {
+                        print("Correct");
+                        //Get the friend and update subtitles map in scoring
+                        //score.subtitles[score.index(friend.name)] = 1;
+                      }
                       Navigator.pop(context);
                     },
                   );

@@ -30,7 +30,7 @@ void main() {
     expect(find.byKey(const Key("AddFriend")), findsOneWidget);
   });
   testWidgets('Scoring page works', (tester) async {
-    await tester.pumpWidget(const MaterialApp(home: Scoring()));
+    await tester.pumpWidget(MaterialApp(home: Scoring()));
   });
   testWidgets('Add Friend and check buttons', (tester) async {
     // add friend
@@ -70,12 +70,12 @@ void main() {
   test('SendImageScreen and camera type check', () {
     var type = ImageSourceType.camera;
 
-    SendImageScreen imageFromGallery = const SendImageScreen();
+    SendImageScreen imageFromGallery = SendImageScreen(type);
     expect(type, ImageSourceType.camera);
 
     var type2 = ImageSourceType.gallery;
 
-    SendImageScreen imageFromGallery2 = const SendImageScreen();
+    SendImageScreen imageFromGallery2 = SendImageScreen(type2);
     expect(type2, ImageSourceType.gallery);
   });
 }

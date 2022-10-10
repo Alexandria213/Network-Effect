@@ -2,17 +2,15 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:ispy_game/game_chat.dart';
 
 import 'image_selection_screen.dart';
-import 'package:ispy_game/game_chat.dart';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class SendImageScreen extends StatefulWidget {
-  const SendImageScreen({this.type, super.key, this.imageFile});
+  const SendImageScreen(this.type, {super.key, this.imageFile});
   final type;
   final imageFile;
 
@@ -21,11 +19,12 @@ class SendImageScreen extends StatefulWidget {
   }
 
   @override
-  _SendImageScreenState createState() => _SendImageScreenState();
+  _SendImageScreenState createState() => _SendImageScreenState(type);
 }
 
 class _SendImageScreenState extends State<SendImageScreen> {
   final TextEditingController _spyInputController = TextEditingController();
+  final ChatScreen chat = ChatScreen(friend: null);
   ImagePicker picker = ImagePicker();
   String spy = "";
   var type;
@@ -33,7 +32,7 @@ class _SendImageScreenState extends State<SendImageScreen> {
 
   File? imageFile;
 
-  _SendImageScreenState();
+  _SendImageScreenState(type);
 
   uploadImage(File image) async {
     final _firebaseStorage = FirebaseStorage.instance;
@@ -43,6 +42,9 @@ class _SendImageScreenState extends State<SendImageScreen> {
         imagePath.lastIndexOf("/") + 1, imagePath.lastIndexOf("."));
     String path = imagePath.substring(
         imagePath.indexOf("/") + 1, imagePath.lastIndexOf("/"));
+
+    print("ImageName $imageName");
+    print("ImagePath $path");
 
     //Check Permissions
     await Permission.photos.request();
@@ -58,6 +60,7 @@ class _SendImageScreenState extends State<SendImageScreen> {
       String downloadUrl = await taskSnapshot.ref.getDownloadURL();
       setState(() {
         downloadUrl = imageFile as String;
+        print("DownloadURL $downloadUrl");
       });
     } else {
       print('Permission not granted. Try Again with permission access');
@@ -132,6 +135,7 @@ class _SendImageScreenState extends State<SendImageScreen> {
                     uploadImage(_image);
                     Navigator.pop(context);
                     Navigator.pop(context);
+                    //Must also call send on the controller value from _spyInputController
                   },
                   child: const Text("Send"))
             ],

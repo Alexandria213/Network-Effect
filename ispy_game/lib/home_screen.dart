@@ -36,7 +36,7 @@ class _HomeState extends State<Home> {
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => const Scoring(),
+                      builder: (context) => Scoring(),
                     ),
                   );
                 },

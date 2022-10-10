@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:ispy_game/server.dart';
-
-import 'package:ispy_game/friends.dart';
 
 class Scoring extends StatefulWidget {
-  const Scoring({super.key});
+  Scoring({super.key});
+
+  //names and scores
+  List<String> friends = ["Friend 1", "Friend 2", "Friend 3"];
+  Map subtitles = {1: 3, 3: 4, 5: 6};
+
+  int index(String friend) {
+    return friends.indexOf(friend);
+  }
 
   @override
   _ScoringState createState() => _ScoringState();
 }
 
 class _ScoringState extends State<Scoring> {
-  //names and scores
-  List<String> titles = ["Friend 1", "Friend 2", "Friend 3"];
-  final subtitles = ["Points:", "Points:", "Points:"];
-
+  Scoring score = Scoring();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,16 +24,20 @@ class _ScoringState extends State<Scoring> {
         title: const Text("Eye Spy"),
       ),
       body: ListView.builder(
-        itemCount: titles.length,
+        itemCount: score.friends.length,
         itemBuilder: (context, index) {
           return Card(
             key: const Key("CircleCard"),
             child: ListTile(
-              onTap: () {
-                //setState();
-              },
-              title: Text(titles[index]),
-              subtitle: Text(subtitles[index]),
+              onTap: () {},
+              title: Text(score.friends[index]),
+              subtitle: Row(
+                children: [
+                  Text(score.subtitles.keys.elementAt(index).toString()),
+                  const Text(" : "),
+                  Text(score.subtitles.values.elementAt(index).toString()),
+                ],
+              ),
             ),
           );
         },

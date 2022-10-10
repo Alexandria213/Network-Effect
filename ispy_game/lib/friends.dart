@@ -6,17 +6,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mutex/mutex.dart';
 
+import 'scoring.dart';
+
 const int ourPort = 8888;
 final m = Mutex();
 
 class Friends extends Iterable<String> {
   Map<String, Friend> _names2Friends = {};
   Map<String, Friend> _ips2Friends = {};
+  final Scoring score = Scoring();
 
   void add(String name, String ip) {
     Friend f = Friend(ipAddr: ip, name: name);
     _names2Friends[name] = f;
     _ips2Friends[ip] = f;
+    score.friends.add(name);
   }
 
   String? ipAddr(String? name) => _names2Friends[name]?.ipAddr;
