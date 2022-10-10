@@ -69,10 +69,12 @@ class Friend extends ChangeNotifier {
   }
 
   Future<void> _add_message(String name, String message) async {
-    await m.protect(() async {
-      _messages.add(Message(author: name, content: message));
-      notifyListeners();
-    });
+    await m.protect(
+      () async {
+        _messages.add(Message(author: name, content: message));
+        notifyListeners();
+      },
+    );
   }
 
   String history() => _messages

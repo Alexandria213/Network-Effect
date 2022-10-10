@@ -19,12 +19,10 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  final SendImageScreen imgscreen = SendImageScreen(type);
   static const List<String> list = <String>['Correct', 'Incorrect'];
   String dropdownValue = list.first;
   final Scoring score = Scoring();
-
-  static get type => ImageSourceType.camera;
+  Friend? friend;
 
   // Text input window when guessing or responding
   Future<void> _displayRespondToGuessDialog(BuildContext context) async {
@@ -76,11 +74,11 @@ class _ChatScreenState extends State<ChatScreen> {
                   setState(
                     () {
                       send(dropdownValue, null);
-                      if (dropdownValue == 'Correct') {
-                        print("Correct");
-                        //Get the friend and update subtitles map in scoring
-                        //score.subtitles[score.index(friend.name)] = 1;
-                      }
+                      // if (dropdownValue == 'Correct') {
+                      //   print("Correct");
+                      //Get the friend and update subtitles map in scoring
+                      //score.subtitles[score.index(friend.name)] = 1;
+                      //}
                       Navigator.pop(context);
                     },
                   );
@@ -96,6 +94,7 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     super.initState();
     widget.friend!.addListener(update);
+    friend = widget.friend;
   }
 
   void dispose() {
@@ -153,7 +152,7 @@ class _ChatScreenState extends State<ChatScreen> {
               ],
             ),
             Expanded(child: widget.friend!.bubble_history()),
-            MessageBar(onSend: (_) => send(_, imgscreen.image)),
+            MessageBar(onSend: (_) => send(_, null)),
           ],
         ),
       ),

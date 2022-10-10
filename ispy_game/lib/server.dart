@@ -11,7 +11,7 @@ import 'game_chat.dart';
 import 'list_friends.dart';
 
 class Server extends StatefulWidget {
-  Server({super.key});
+  const Server({super.key});
 
   @override
   _ServerState createState() => _ServerState();

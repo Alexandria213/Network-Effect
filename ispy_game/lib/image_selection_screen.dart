@@ -19,13 +19,12 @@ class SelectImageScreen extends StatelessWidget {
         ),
         body: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               MaterialButton(
                 key: const Key("GalleryButton"),
                 color: Colors.green,
                 child: const Text(
-                  "Pick an Image!",
+                  "Pick Image!",
                   style: TextStyle(
                       color: Colors.white70, fontWeight: FontWeight.bold),
                 ),
