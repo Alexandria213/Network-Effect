@@ -1,19 +1,27 @@
 import 'dart:io';
-import 'package:firebase_storage/firebase_storage.dart';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:uuid/uuid.dart';
 
 import 'image_selection_screen.dart';
 import 'package:ispy_game/game_chat.dart';
 
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:permission_handler/permission_handler.dart';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class SendImageScreen extends StatefulWidget {
-  SendImageScreen(this.type, {super.key, this.imageFile});
+  const SendImageScreen({this.type, super.key, this.imageFile});
   final type;
   final imageFile;
 
+  File? get image {
+    return imageFile;
+  }
+
   @override
-  _SendImageScreenState createState() => _SendImageScreenState(type);
+  _SendImageScreenState createState() => _SendImageScreenState();
 }
 
 class _SendImageScreenState extends State<SendImageScreen> {
@@ -25,16 +33,35 @@ class _SendImageScreenState extends State<SendImageScreen> {
 
   File? imageFile;
 
-  _SendImageScreenState(this.type);
+  _SendImageScreenState();
 
-  File? getImage() {
-    picker.pickImage(source: type).then((file) {
-      if (file != null) {
-        imageFile = File(file.path);
-        return imageFile;
-      }
-    });
-    return null;
+  uploadImage(File image) async {
+    final _firebaseStorage = FirebaseStorage.instance;
+    var imagePath = image.path;
+
+    String imageName = imagePath.substring(
+        imagePath.lastIndexOf("/") + 1, imagePath.lastIndexOf("."));
+    String path = imagePath.substring(
+        imagePath.indexOf("/") + 1, imagePath.lastIndexOf("/"));
+
+    //Check Permissions
+    await Permission.photos.request();
+
+    var permissionStatus = await Permission.photos.status;
+
+    if (permissionStatus.isGranted) {
+      var file = File(image.path);
+
+      //Upload to Firebase
+      TaskSnapshot taskSnapshot =
+          await _firebaseStorage.ref('$path/$imageName').putFile(file);
+      String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+      setState(() {
+        downloadUrl = imageFile as String;
+      });
+    } else {
+      print('Permission not granted. Try Again with permission access');
+    }
   }
 
   @override
@@ -54,10 +81,10 @@ class _SendImageScreenState extends State<SendImageScreen> {
               var source = type == ImageSourceType.camera
                   ? ImageSource.camera
                   : ImageSource.gallery;
-              XFile? image = await picker.pickImage(
+              File? image = (await picker.pickImage(
                   source: source,
                   imageQuality: 50,
-                  preferredCameraDevice: CameraDevice.front);
+                  preferredCameraDevice: CameraDevice.front)) as File?;
               setState(() {
                 _image = File(image!.path);
               });
@@ -102,13 +129,9 @@ class _SendImageScreenState extends State<SendImageScreen> {
                   child: const Text("Cancel")),
               TextButton(
                   onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const ChatScreen(
-                          friend: null,
-                        ),
-                      ),
-                    );
+                    uploadImage(_image);
+                    Navigator.pop(context);
+                    Navigator.pop(context);
                   },
                   child: const Text("Send"))
             ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ispy_game/scoring.dart';
 import 'package:ispy_game/server.dart';
 
 class Home extends StatefulWidget {
@@ -12,30 +13,37 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Eye Spy"),
-      ),
-      body: Center(child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ElevatedButton(
-            key: const Key("PlayGameButton"),
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => Server(),
-                ),
-              );
-            },
-            child: const Text('Play Game'),
+        appBar: AppBar(
+          title: const Text("Eye Spy"),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                key: const Key("PlayGameButton"),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => Server(),
+                    ),
+                  );
+                },
+                child: const Text('Play Game'),
+              ),
+              ElevatedButton(
+                key: const Key("ScoringButton"),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const Scoring(),
+                    ),
+                  );
+                },
+                child: const Text('Potential Scoring'),
+              )
+            ],
           ),
-          ElevatedButton(
-            onPressed: () {},
-            child: const Text('Potential Scoring'),
-          )
-        ],
-      ),
-    )
-    );
+        ));
   }
 }

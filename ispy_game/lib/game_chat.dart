@@ -9,7 +9,7 @@ import 'friends.dart';
 import 'package:ispy_game/send_image_screen.dart';
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key, required this.friend});
+  ChatScreen({super.key, required this.friend});
 
   final Friend? friend;
 
@@ -18,36 +18,62 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  final SendImageScreen imgscreen = const SendImageScreen();
+  static const List<String> list = <String>['Correct', 'Incorrect'];
+  String dropdownValue = list.first;
+
   // Text input window when guessing or responding
-  Future<void> _displayTextInputDialog(BuildContext context) async {
+  Future<void> _displayRespondToGuessDialog(BuildContext context) async {
     print("Loading Dialog");
     return showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Guess'),
+          title: const Text('Respond to Guess'),
           content: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            // position
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              TextField(
-                onChanged: (value) {
+            children: [
+              DropdownButton<String>(
+                value: dropdownValue,
+                icon: const Icon(Icons.arrow_downward),
+                elevation: 16,
+                style: const TextStyle(color: Colors.deepPurple),
+                underline: Container(
+                  height: 2,
+                  color: Colors.deepPurpleAccent,
+                ),
+                onChanged: (String? value) {
+                  // This is called when the user selects an item.
+                  setState(() {
+                    dropdownValue = value!;
+                  });
+                },
+                items: list.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              ),
+              ElevatedButton(
+                key: const Key("CancelButtonDropdown"),
+                child: const Text('Cancel'),
+                onPressed: () {
                   setState(
                     () {
-                      value = value;
+                      Navigator.pop(context);
                     },
                   );
                 },
-                //controller: _spyInputController,
-                decoration: const InputDecoration(hintText: "Content"),
               ),
               ElevatedButton(
-                key: const Key("OKButton"),
+                key: const Key("OKButtonDropdown"),
                 child: const Text('OK'),
                 onPressed: () {
                   setState(
-                    () {},
+                    () {
+                      send(dropdownValue, null);
+                      Navigator.pop(context);
+                    },
                   );
                 },
               ),
@@ -74,8 +100,8 @@ class _ChatScreenState extends State<ChatScreen> {
     setState(() {});
   }
 
-  Future<void> sendPic(String msg, File? image) async {
-    await widget.friend!.sendPic(msg, image).catchError((e) {
+  Future<void> send(String msg, File? image) async {
+    await widget.friend!.send(msg, image).catchError((e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("Error: $e"),
       ));
@@ -110,7 +136,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 Expanded(
                   child: TextButton(
                     onPressed: () {
-                      _displayTextInputDialog(context);
+                      _displayRespondToGuessDialog(context);
                     },
                     child: const Text("Respond to a Guess"),
                   ),
@@ -118,9 +144,7 @@ class _ChatScreenState extends State<ChatScreen> {
               ],
             ),
             Expanded(child: widget.friend!.bubble_history()),
-
-            //NEED ACCESS TO THE IMAGE TO SEND IN THE sendPic method
-            //MessageBar(onSend: (_) => sendPic(_, SendImageScreen(type).imageFile)
+            MessageBar(onSend: (_) => send(_, imgscreen.image)),
           ],
         ),
       ),
