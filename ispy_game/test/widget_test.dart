@@ -68,14 +68,15 @@ void main() {
   });
 
   test('SendImageScreen and camera type check', () {
+    Friend? friend = Friend(ipAddr: "0000", name: "Test");
     var type = ImageSourceType.camera;
 
-    SendImageScreen imageFromGallery = SendImageScreen(type);
+    SendImageScreen imageFromGallery = SendImageScreen(type, friend: friend);
     expect(type, ImageSourceType.camera);
 
     var type2 = ImageSourceType.gallery;
 
-    SendImageScreen imageFromGallery2 = SendImageScreen(type2);
+    SendImageScreen imageFromGallery2 = SendImageScreen(type2, friend: friend);
     expect(type2, ImageSourceType.gallery);
   });
 }
