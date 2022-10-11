@@ -7,8 +7,6 @@ import 'package:ispy_game/image_selection_screen.dart';
 import 'package:ispy_game/scoring.dart';
 import 'friends.dart';
 
-import 'package:ispy_game/send_image_screen.dart';
-
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key, required this.friend});
 
@@ -22,7 +20,6 @@ class _ChatScreenState extends State<ChatScreen> {
   static const List<String> list = <String>['Correct', 'Incorrect'];
   String dropdownValue = list.first;
   final Scoring score = Scoring();
-  Friend? friend;
 
   // Text input window when guessing or responding
   Future<void> _displayRespondToGuessDialog(BuildContext context) async {
@@ -94,7 +91,6 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     super.initState();
     widget.friend!.addListener(update);
-    friend = widget.friend;
   }
 
   void dispose() {
@@ -134,7 +130,9 @@ class _ChatScreenState extends State<ChatScreen> {
                     onPressed: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => const SelectImageScreen(),
+                          builder: (context) => SelectImageScreen(
+                            friend: widget.friend!,
+                          ),
                         ),
                       );
                     },

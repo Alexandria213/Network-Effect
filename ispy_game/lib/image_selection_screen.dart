@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:ispy_game/send_image_screen.dart';
 
+import 'friends.dart';
+
 enum ImageSourceType { gallery, camera }
 
 class SelectImageScreen extends StatelessWidget {
-  const SelectImageScreen({super.key});
+  const SelectImageScreen({super.key, required this.friend});
+
+  final Friend friend;
 
   void _handleURLButtonPress(BuildContext context, var type) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => SendImageScreen(type)));
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SendImageScreen(type, friend: friend),
+      ),
+    );
   }
 
   @override
