@@ -40,7 +40,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: ChatScreen(
-          friend: Friend(ipAddr: "0000", name: "Friend"),
+          friend: Friend(ipAddr: "0000", name: "Friend", score: 0),
         ),
       ),
     );
@@ -68,7 +68,7 @@ void main() {
   });
 
   test('SendImageScreen and camera type check', () {
-    Friend? friend = Friend(ipAddr: "0000", name: "Test");
+    Friend? friend = Friend(ipAddr: "0000", name: "Test", score: 0);
     var type = ImageSourceType.camera;
 
     SendImageScreen imageFromGallery = SendImageScreen(type, friend: friend);

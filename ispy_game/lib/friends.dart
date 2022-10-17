@@ -56,13 +56,11 @@ class Friend extends ChangeNotifier {
   Future<void> send(String message) async {
     Socket socket = await Socket.connect(ipAddr, ourPort);
     socket.write(message);
-    socket.close();
-    await _add_message("Me", message);
-  }
-
-  Future<void> send(String message) async {
-    Socket socket = await Socket.connect(ipAddr, ourPort);
-    socket.write(message);
+    // final imageBytes = await rootBundle.load(image!.path);
+    // final bytesAsString = base64Encode(imageBytes.buffer
+    //     .asUint8List(imageBytes.offsetInBytes, imageBytes.lengthInBytes));
+    // print(bytesAsString);
+    // socket.write("$bytesAsString\n");
     socket.close();
     await _add_message("Me", message);
   }
@@ -72,10 +70,12 @@ class Friend extends ChangeNotifier {
   }
 
   Future<void> _add_message(String name, String message) async {
-    await m.protect(() async {
-      _messages.add(Message(author: name, content: message));
-      notifyListeners();
-    });
+    await m.protect(
+      () async {
+        _messages.add(Message(author: name, content: message));
+        notifyListeners();
+      },
+    );
   }
 
   String history() => _messages
