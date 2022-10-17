@@ -110,7 +110,7 @@ class _SendImageScreenState extends State<SendImageScreen> {
               TextButton(
                 onPressed: () {
                   _image.copy('$path/image1.png');
-                  widget.friend.send(_spyInputController.text, _image);
+                  widget.friend.send(_spyInputController.text);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
