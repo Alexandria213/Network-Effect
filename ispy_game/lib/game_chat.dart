@@ -71,11 +71,12 @@ class _ChatScreenState extends State<ChatScreen> {
                   setState(
                     () {
                       send(dropdownValue);
-                      // if (dropdownValue == 'Correct') {
-                      //   print("Correct");
-                      //Get the friend and update subtitles map in scoring
-                      //score.subtitles[score.index(friend.name)] = 1;
-                      //}
+                      if (dropdownValue == 'Correct') {
+                        widget.friend?.score += 1;
+                        //   print("Correct");
+                        //Get the friend and update subtitles map in scoring
+                        //score.subtitles[score.index(friend.name)] = 1;
+                      }
                       Navigator.pop(context);
                     },
                   );
@@ -125,20 +126,20 @@ class _ChatScreenState extends State<ChatScreen> {
           children: [
             Row(
               children: [
-                Expanded(
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => SelectImageScreen(
-                            friend: widget.friend!,
-                          ),
-                        ),
-                      );
-                    },
-                    child: const Text("Share an Image"),
-                  ),
-                ),
+                // Expanded(
+                //   child: TextButton(
+                //     onPressed: () {
+                //       Navigator.of(context).push(
+                //         MaterialPageRoute(
+                //           builder: (context) => SelectImageScreen(
+                //             friend: widget.friend!,
+                //           ),
+                //         ),
+                //       );
+                //     },
+                //     child: const Text("Share an Image"),
+                //   ),
+                // ),
                 Expanded(
                   child: TextButton(
                     onPressed: () {

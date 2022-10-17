@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class Scoring extends StatefulWidget {
   Scoring({super.key});
 
-  //names and scores
+  //init sample names and scores
   List<String> friends = ["Friend 1", "Friend 2", "Friend 3"];
   Map subtitles = {1: 3, 3: 4, 5: 6};
 
