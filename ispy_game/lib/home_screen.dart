@@ -40,7 +40,7 @@ class _HomeState extends State<Home> {
                     ),
                   );
                 },
-                child: const Text('Potential Scoring'),
+                child: const Text('Scores'),
               )
             ],
           ),

@@ -14,10 +14,11 @@ final m = Mutex();
 class Friends extends Iterable<String> {
   Map<String, Friend> _names2Friends = {};
   Map<String, Friend> _ips2Friends = {};
+  Map<int, Friend> _score2Friends = {};
   final Scoring score = Scoring();
 
   void add(String name, String ip) {
-    Friend f = Friend(ipAddr: ip, name: name);
+    Friend f = Friend(ipAddr: ip, name: name, score: 0);
     _names2Friends[name] = f;
     _ips2Friends[ip] = f;
     score.friends.add(name);
@@ -26,6 +27,8 @@ class Friends extends Iterable<String> {
   String? ipAddr(String? name) => _names2Friends[name]?.ipAddr;
 
   Friend? getFriend(String? name) => _names2Friends[name];
+
+  int? Score(String? name) => _names2Friends[name]?.score;
 
   void receiveFrom(String ip, String message) {
     print("receiveFrom($ip, $message)");
@@ -46,8 +49,9 @@ class Friend extends ChangeNotifier {
   final String ipAddr;
   final String name;
   final List<Message> _messages = [];
+  int score;
 
-  Friend({required this.ipAddr, required this.name});
+  Friend({required this.ipAddr, required this.name, required this.score});
 
   Future<void> send(String message) async {
     Socket socket = await Socket.connect(ipAddr, ourPort);

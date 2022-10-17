@@ -71,11 +71,12 @@ class _ChatScreenState extends State<ChatScreen> {
                   setState(
                     () {
                       send(dropdownValue);
-                      // if (dropdownValue == 'Correct') {
-                      //   print("Correct");
-                      //Get the friend and update subtitles map in scoring
-                      //score.subtitles[score.index(friend.name)] = 1;
-                      //}
+                      if (dropdownValue == 'Correct') {
+                        widget.friend?.score += 1;
+                        //   print("Correct");
+                        //Get the friend and update subtitles map in scoring
+                        //score.subtitles[score.index(friend.name)] = 1;
+                      }
                       Navigator.pop(context);
                     },
                   );

@@ -33,6 +33,7 @@ class FriendListItem extends StatelessWidget {
         friend.name,
       ),
       subtitle: Text(friend.ipAddr),
+      trailing: Text(friend.score.toString()),
     ));
   }
 }
