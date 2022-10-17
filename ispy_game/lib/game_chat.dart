@@ -125,20 +125,20 @@ class _ChatScreenState extends State<ChatScreen> {
           children: [
             Row(
               children: [
-                Expanded(
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => SelectImageScreen(
-                            friend: widget.friend!,
-                          ),
-                        ),
-                      );
-                    },
-                    child: const Text("Share an Image"),
-                  ),
-                ),
+                // Expanded(
+                //   child: TextButton(
+                //     onPressed: () {
+                //       Navigator.of(context).push(
+                //         MaterialPageRoute(
+                //           builder: (context) => SelectImageScreen(
+                //             friend: widget.friend!,
+                //           ),
+                //         ),
+                //       );
+                //     },
+                //     child: const Text("Share an Image"),
+                //   ),
+                // ),
                 Expanded(
                   child: TextButton(
                     onPressed: () {
