@@ -70,7 +70,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 onPressed: () {
                   setState(
                     () {
-                      send(dropdownValue, null);
+                      send(dropdownValue);
                       // if (dropdownValue == 'Correct') {
                       //   print("Correct");
                       //Get the friend and update subtitles map in scoring
@@ -104,8 +104,8 @@ class _ChatScreenState extends State<ChatScreen> {
     setState(() {});
   }
 
-  Future<void> send(String msg, File? image) async {
-    await widget.friend!.send(msg, image).catchError((e) {
+  Future<void> send(String msg) async {
+    await widget.friend!.send(msg).catchError((e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("Error: $e"),
       ));
@@ -150,7 +150,7 @@ class _ChatScreenState extends State<ChatScreen> {
               ],
             ),
             Expanded(child: widget.friend!.bubble_history()),
-            MessageBar(onSend: (_) => send(_, null)),
+            MessageBar(onSend: (_) => send(_)),
           ],
         ),
       ),

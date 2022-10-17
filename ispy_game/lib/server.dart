@@ -11,7 +11,7 @@ import 'game_chat.dart';
 import 'list_friends.dart';
 
 class Server extends StatefulWidget {
-  const Server({super.key});
+  Server({super.key});
 
   @override
   _ServerState createState() => _ServerState();
@@ -27,7 +27,7 @@ class _ServerState extends State<Server> {
   void initState() {
     super.initState();
     _friends = Friends();
-    _friends.add("Self", "10.253.194.160");
+    _friends.add("Self", "127.0.0.1");
     _nameController = TextEditingController();
     _ipController = TextEditingController();
     _setupServer();
@@ -43,7 +43,7 @@ class _ServerState extends State<Server> {
     // Thank you https://stackoverflow.com/questions/52411168/how-to-get-device-ip-in-dart-flutter
     String? ip = await NetworkInfo().getWifiIP();
     setState(() {
-      _ipaddress = "My IP: $ip";
+      _ipaddress = "My IP: ${ip!}";
     });
   }
 
@@ -157,7 +157,7 @@ class _ServerState extends State<Server> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Game Chats with Friends"),
+        title: const Text("Current Game Chats"),
       ),
       body: Center(
         child: ListView(
@@ -174,7 +174,6 @@ class _ServerState extends State<Server> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        key: const Key("AddFriend"),
         onPressed: () {
           _displayTextInputDialog(context);
         },

@@ -49,29 +49,22 @@ class Friend extends ChangeNotifier {
 
   Friend({required this.ipAddr, required this.name});
 
-  Future<void> send(String message, File? image) async {
+  Future<void> send(String message) async {
     Socket socket = await Socket.connect(ipAddr, ourPort);
     socket.write(message);
-    final imageBytes = await rootBundle.load(image!.path);
-    final bytesAsString = base64Encode(imageBytes.buffer
-        .asUint8List(imageBytes.offsetInBytes, imageBytes.lengthInBytes));
-    print(bytesAsString);
-    socket.write("$bytesAsString\n");
     socket.close();
-    await _add_message_and_picture("Me", message);
+    await _add_message("Me", message);
   }
 
   Future<void> receive(String message) async {
-    return _add_message_and_picture(name, message);
+    return _add_message(name, message);
   }
 
-  Future<void> _add_message_and_picture(String name, String message) async {
-    await m.protect(
-      () async {
-        _messages.add(Message(author: name, content: message));
-        notifyListeners();
-      },
-    );
+  Future<void> _add_message(String name, String message) async {
+    await m.protect(() async {
+      _messages.add(Message(author: name, content: message));
+      notifyListeners();
+    });
   }
 
   String history() => _messages
