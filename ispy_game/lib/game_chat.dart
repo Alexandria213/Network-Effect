@@ -113,6 +113,14 @@ class _ChatScreenState extends State<ChatScreen> {
     });
   }
 
+  Future<void> send(String msg) async {
+    await widget.friend!.send(msg).catchError((e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Error: $e"),
+      ));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(

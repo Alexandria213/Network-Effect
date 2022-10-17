@@ -60,6 +60,13 @@ class Friend extends ChangeNotifier {
     await _add_message("Me", message);
   }
 
+  Future<void> send(String message) async {
+    Socket socket = await Socket.connect(ipAddr, ourPort);
+    socket.write(message);
+    socket.close();
+    await _add_message("Me", message);
+  }
+
   Future<void> receive(String message) async {
     return _add_message(name, message);
   }
