@@ -1,9 +1,8 @@
-import 'dart:io';
+import 'dart:math';
 
 import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:flutter/material.dart';
 
-import 'package:ispy_game/image_selection_screen.dart';
 import 'package:ispy_game/scoring.dart';
 import 'friends.dart';
 
@@ -115,6 +114,8 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Random random = Random();
+    int randomNumber = random.nextInt(6);
     return SizedBox(
       height: 100,
       child: Scaffold(
@@ -126,20 +127,6 @@ class _ChatScreenState extends State<ChatScreen> {
           children: [
             Row(
               children: [
-                // Expanded(
-                //   child: TextButton(
-                //     onPressed: () {
-                //       Navigator.of(context).push(
-                //         MaterialPageRoute(
-                //           builder: (context) => SelectImageScreen(
-                //             friend: widget.friend!,
-                //           ),
-                //         ),
-                //       );
-                //     },
-                //     child: const Text("Share an Image"),
-                //   ),
-                // ),
                 Expanded(
                   child: TextButton(
                     onPressed: () {
@@ -149,6 +136,11 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                 ),
               ],
+            ),
+            Expanded(
+              child: Image.asset(
+                "assets/image_$randomNumber.jpg",
+              ),
             ),
             Expanded(child: widget.friend!.bubble_history()),
             MessageBar(onSend: (_) => send(_)),
