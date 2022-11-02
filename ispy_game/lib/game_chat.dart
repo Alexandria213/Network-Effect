@@ -135,8 +135,9 @@ class _ChatScreenState extends State<ChatScreen> {
                       await availableCameras().then((value) => Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (_) =>
-                                  TakePictureScreen(camera: value.first))));
+                              builder: (_) => TakePictureScreen(
+                                  camera: value.first,
+                                  friend: widget.friend))));
                     },
                     child: const Text("Share an Image"),
                   ),

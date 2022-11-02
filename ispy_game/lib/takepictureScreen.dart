@@ -2,16 +2,22 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:chat_bubbles/message_bars/message_bar.dart';
 import 'package:flutter/material.dart';
+
+import 'friends.dart';
 
 // A screen that allows users to take a picture using a given camera.
 class TakePictureScreen extends StatefulWidget {
   const TakePictureScreen({
     super.key,
     required this.camera,
+    required this.friend,
   });
 
   final CameraDescription camera;
+
+  final Friend? friend;
 
   @override
   TakePictureScreenState createState() => TakePictureScreenState();
@@ -51,18 +57,23 @@ class TakePictureScreenState extends State<TakePictureScreen> {
       // You must wait until the controller is initialized before displaying the
       // camera preview. Use a FutureBuilder to display a loading spinner until the
       // controller has finished initializing.
-      body: FutureBuilder<void>(
-        future: _initializeControllerFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            // If the Future is complete, display the preview.
-            return CameraPreview(_controller);
-          } else {
-            // Otherwise, display a loading indicator.
-            return const Center(child: CircularProgressIndicator());
-          }
-        },
+      body: Column(
+        children: [
+          FutureBuilder<void>(
+            future: _initializeControllerFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                // If the Future is complete, display the preview.
+                return CameraPreview(_controller);
+              } else {
+                // Otherwise, display a loading indicator.
+                return const Center(child: CircularProgressIndicator());
+              }
+            },
+          ),
+        ],
       ),
+
       floatingActionButton: FloatingActionButton(
         // Provide an onPressed callback.
         onPressed: () async {
@@ -82,10 +93,10 @@ class TakePictureScreenState extends State<TakePictureScreen> {
             await Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => DisplayPictureScreen(
-                  // Pass the automatically generated path to
-                  // the DisplayPictureScreen widget.
-                  imagePath: image.path,
-                ),
+                    // Pass the automatically generated path to
+                    // the DisplayPictureScreen widget.
+                    imagePath: image.path,
+                    friend: widget.friend),
               ),
             );
           } catch (e) {
@@ -99,19 +110,46 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   }
 }
 
-// A widget that displays the picture taken by the user.
-class DisplayPictureScreen extends StatelessWidget {
+class DisplayPictureScreen extends StatefulWidget {
+  const DisplayPictureScreen({
+    super.key,
+    required this.imagePath,
+    required this.friend,
+  });
   final String imagePath;
+  final Friend? friend;
 
-  const DisplayPictureScreen({super.key, required this.imagePath});
+  @override
+  State<DisplayPictureScreen> createState() => _MyDisplayPictureScreen();
+}
+
+class _MyDisplayPictureScreen extends State<DisplayPictureScreen> {
+  @override
+  Future<void> send(String msg, Image x) async {
+    await widget.friend!.send(msg).catchError((e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Error: $e"),
+      ));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Image')),
-      // The image is stored as a file on the device. Use the `Image.file`
-      // constructor with the given path to display the image.
-      body: Image.file(File(imagePath)),
-    );
+        appBar: AppBar(title: const Text('Image')),
+        // The image is stored as a file on the device. Use the `Image.file`
+        // constructor with the given path to display the image.
+        body: ListView(
+          children: <Widget>[
+            Container(
+              height: 50,
+              child: Image.file(File(widget.imagePath)),
+            ),
+            SizedBox(),
+            Container(
+                child: MessageBar(
+                    onSend: (_) => send(_, Image.file(File(widget.imagePath)))))
+          ],
+        ));
   }
 }
