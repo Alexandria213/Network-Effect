@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:ispy_game/home_screen.dart';
+import 'dart:async';
+import 'dart:io';
 
-void main() {
+import 'package:camera/camera.dart';
+
+main() {
+  // Ensure that plugin services are initialized so that `availableCameras()`
+  // can be called before `runApp()`
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const EyeSpy());
 }
 

@@ -1,11 +1,14 @@
 import 'dart:io';
 
+import 'package:camera/camera.dart';
 import 'package:chat_bubbles/chat_bubbles.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ispy_game/image_selection_screen.dart';
 import 'package:ispy_game/scoring.dart';
 import 'friends.dart';
+import 'takepictureScreen.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key, required this.friend});
@@ -126,20 +129,18 @@ class _ChatScreenState extends State<ChatScreen> {
           children: [
             Row(
               children: [
-                // Expanded(
-                //   child: TextButton(
-                //     onPressed: () {
-                //       Navigator.of(context).push(
-                //         MaterialPageRoute(
-                //           builder: (context) => SelectImageScreen(
-                //             friend: widget.friend!,
-                //           ),
-                //         ),
-                //       );
-                //     },
-                //     child: const Text("Share an Image"),
-                //   ),
-                // ),
+                Expanded(
+                  child: TextButton(
+                    onPressed: () async {
+                      await availableCameras().then((value) => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) =>
+                                  TakePictureScreen(camera: value.first))));
+                    },
+                    child: const Text("Share an Image"),
+                  ),
+                ),
                 Expanded(
                   child: TextButton(
                     onPressed: () {
