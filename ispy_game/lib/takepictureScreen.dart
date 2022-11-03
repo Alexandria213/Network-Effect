@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
@@ -125,7 +126,7 @@ class DisplayPictureScreen extends StatefulWidget {
 
 class _MyDisplayPictureScreen extends State<DisplayPictureScreen> {
   @override
-  Future<void> send(String msg, Image x) async {
+  Future<void> send(String msg) async {
     await widget.friend!.send(msg).catchError((e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("Error: $e"),
@@ -148,7 +149,8 @@ class _MyDisplayPictureScreen extends State<DisplayPictureScreen> {
             SizedBox(),
             Container(
                 child: MessageBar(
-                    onSend: (_) => send(_, Image.file(File(widget.imagePath)))))
+                    onSend: (_) => send(base64Encode(
+                        File(widget.imagePath).readAsBytesSync()))))
           ],
         ));
   }
