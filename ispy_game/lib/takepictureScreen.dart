@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:chat_bubbles/message_bars/message_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:ispy_game/game_chat.dart';
 
 import 'friends.dart';
 
