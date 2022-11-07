@@ -154,7 +154,9 @@ class _ChatScreenState extends State<ChatScreen> {
               ],
             ),
             Expanded(child: widget.friend!.bubble_history()),
-            //MessageBar(onSend: (_) => send(_)),
+            MessageBar(
+              onSend: (_) {},
+            )
           ],
         ),
       ),

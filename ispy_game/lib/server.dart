@@ -68,7 +68,7 @@ class _ServerState extends State<Server> {
   }
 
   void _handleIncomingMessage(String ip, incomingData) {
-    Image received = Image.asset(incomingData);
+    Image received = Image.file(incomingData);
     print("Received '$received' from '$ip'");
     _friends.receiveFrom(ip, received);
   }

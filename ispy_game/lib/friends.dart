@@ -65,8 +65,6 @@ class Friend extends ChangeNotifier {
     await _add_message("Me", message);
   }
 
-  Future<void> _imageadd(String name, Image mess) async {}
-
   Future<void> receive(Image message) async {
     return _add_message(name, message);
   }
@@ -92,9 +90,23 @@ class Friend extends ChangeNotifier {
       children: _messages
           .map((m) {
             bool isMe = m.author == "Me";
-            return Container(
-              child: m.content,
-            );
+            return Row(children: [
+              Container(
+                alignment: isMe ? Alignment.bottomLeft : Alignment.bottomRight,
+                height: 200,
+                width: 90,
+                child: m.content,
+              ),
+              SizedBox(
+                width: 230,
+              ),
+              Container(
+                  alignment:
+                      !isMe ? Alignment.bottomRight : Alignment.bottomLeft,
+                  height: 500,
+                  width: 90,
+                  child: m.content)
+            ]);
           })
           .toList()
           // https://stackoverflow.com/questions/53483263/flutter-how-to-make-a-list-that-always-scrolls-to-the-bottom
