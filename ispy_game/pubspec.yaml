@@ -44,6 +44,7 @@ dependencies:
   camera:
   path_provider:
   path:
+  chat_image: ^0.0.4
 
 
 dev_dependencies:

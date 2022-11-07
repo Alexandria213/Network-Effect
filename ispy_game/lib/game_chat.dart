@@ -73,7 +73,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 onPressed: () {
                   setState(
                     () {
-                      send(dropdownValue);
+                      //send(dropdownValue);
                       if (dropdownValue == 'Correct') {
                         widget.friend?.score += 1;
                         //   print("Correct");
@@ -108,7 +108,7 @@ class _ChatScreenState extends State<ChatScreen> {
     setState(() {});
   }
 
-  Future<void> send(String msg) async {
+  Future<void> send(Image msg) async {
     await widget.friend!.send(msg).catchError((e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("Error: $e"),
@@ -132,12 +132,13 @@ class _ChatScreenState extends State<ChatScreen> {
                 Expanded(
                   child: TextButton(
                     onPressed: () async {
-                      await availableCameras().then((value) => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => TakePictureScreen(
-                                  camera: value.first,
-                                  friend: widget.friend))));
+                      final result = await availableCameras().then((value) =>
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => TakePictureScreen(
+                                      camera: value.first,
+                                      friend: widget.friend))));
                     },
                     child: const Text("Share an Image"),
                   ),
@@ -153,7 +154,9 @@ class _ChatScreenState extends State<ChatScreen> {
               ],
             ),
             Expanded(child: widget.friend!.bubble_history()),
-            MessageBar(onSend: (_) => send(_)),
+            MessageBar(
+              onSend: (_) {},
+            )
           ],
         ),
       ),

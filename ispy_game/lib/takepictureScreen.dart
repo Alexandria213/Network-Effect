@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:chat_bubbles/message_bars/message_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:ispy_game/game_chat.dart';
 
 import 'friends.dart';
 
@@ -30,12 +32,8 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   @override
   void initState() {
     super.initState();
-    // To display the current output from the Camera,
-    // create a CameraController.
     _controller = CameraController(
-      // Get a specific camera from the list of available cameras.
       widget.camera,
-      // Define the resolution to use.
       ResolutionPreset.medium,
     );
 
@@ -125,7 +123,7 @@ class DisplayPictureScreen extends StatefulWidget {
 
 class _MyDisplayPictureScreen extends State<DisplayPictureScreen> {
   @override
-  Future<void> send(String msg, Image x) async {
+  Future<void> send(Image msg) async {
     await widget.friend!.send(msg).catchError((e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("Error: $e"),
@@ -147,8 +145,12 @@ class _MyDisplayPictureScreen extends State<DisplayPictureScreen> {
             ),
             SizedBox(),
             Container(
-                child: MessageBar(
-                    onSend: (_) => send(_, Image.file(File(widget.imagePath)))))
+              child: TextButton(
+                child: Text("Send"),
+                onPressed: () async => send(Image.memory(base64Decode(base64
+                    .encode(await File(widget.imagePath).readAsBytesSync())))),
+              ),
+            )
           ],
         ));
   }
