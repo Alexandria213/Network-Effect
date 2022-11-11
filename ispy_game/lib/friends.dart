@@ -30,7 +30,7 @@ class Friends extends Iterable<String> {
 
   int? Score(String? name) => _names2Friends[name]?.score;
 
-  void receiveFrom(String ip, String message) {
+  void receiveFrom(String ip, Image message) {
     print("receiveFrom($ip, $message)");
     if (!_ips2Friends.containsKey(ip)) {
       String newFriend = "Friend${_ips2Friends.length}";
@@ -53,7 +53,7 @@ class Friend extends ChangeNotifier {
 
   Friend({required this.ipAddr, required this.name, required this.score});
 
-  Future<void> send(String message) async {
+  Future<void> send(Image message) async {
     Socket socket = await Socket.connect(ipAddr, ourPort);
     socket.write(message);
     // final imageBytes = await rootBundle.load(image!.path);
@@ -65,11 +65,11 @@ class Friend extends ChangeNotifier {
     await _add_message("Me", message);
   }
 
-  Future<void> receive(String message) async {
+  Future<void> receive(Image message) async {
     return _add_message(name, message);
   }
 
-  Future<void> _add_message(String name, String message) async {
+  Future<void> _add_message(String name, Image message) async {
     await m.protect(
       () async {
         _messages.add(Message(author: name, content: message));
@@ -90,21 +90,23 @@ class Friend extends ChangeNotifier {
       children: _messages
           .map((m) {
             bool isMe = m.author == "Me";
-            return BubbleNormal(
-              text: m.content,
-              isSender: isMe,
-              color: isMe ? const Color(0xFFE8E8EE) : const Color(0xFF1B97F3),
-              tail: false,
-              textStyle: isMe
-                  ? const TextStyle(
-                      fontSize: 15,
-                      color: Colors.black,
-                    )
-                  : const TextStyle(
-                      fontSize: 15,
-                      color: Colors.white,
-                    ),
-            );
+            return Row(children: [
+              Container(
+                alignment: isMe ? Alignment.bottomLeft : Alignment.bottomRight,
+                height: 200,
+                width: 90,
+                child: m.content,
+              ),
+              SizedBox(
+                width: 230,
+              ),
+              Container(
+                  alignment:
+                      !isMe ? Alignment.bottomRight : Alignment.bottomLeft,
+                  height: 500,
+                  width: 90,
+                  child: m.content)
+            ]);
           })
           .toList()
           // https://stackoverflow.com/questions/53483263/flutter-how-to-make-a-list-that-always-scrolls-to-the-bottom
@@ -115,9 +117,9 @@ class Friend extends ChangeNotifier {
 }
 
 class Message {
-  final String content;
+  final Image content;
   final String author;
-
+  //final String cont;
   const Message({required this.author, required this.content});
 
   String get transcript => '$author: $content';
