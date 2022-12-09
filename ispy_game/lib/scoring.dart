@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ispy_game/friends.dart';
 
 class Scoring extends StatefulWidget {
   Scoring({super.key});
@@ -26,6 +27,10 @@ class _ScoringState extends State<Scoring> {
       body: ListView.builder(
         itemCount: score.friends.length,
         itemBuilder: (context, index) {
+          if (score.subtitles.keys.elementAt(index) >
+              score.subtitles.keys.elementAt(index)) {
+            Text("The highest score: $score");
+          }
           return Card(
             key: const Key("CircleCard"),
             child: ListTile(

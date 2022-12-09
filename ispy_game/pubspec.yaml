@@ -45,6 +45,7 @@ dependencies:
   path_provider: ^2.0.11
   path:
   chat_image: ^0.0.4
+  share_plus: ^6.3.0
 
 
 

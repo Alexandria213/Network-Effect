@@ -42,7 +42,8 @@ class _HomeState extends State<Home> {
                   );
                 },
                 child: const Text('Scores'),
-              )
+              ),
+              
             ],
           ),
         ));

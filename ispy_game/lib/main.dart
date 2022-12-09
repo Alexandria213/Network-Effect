@@ -30,6 +30,7 @@
 // }
 
 import 'package:flutter/material.dart';
+import 'package:ispy_game/share_image.dart';
 import 'package:ispy_game/home_screen.dart';
 import 'package:ispy_game/image_selection_screen.dart';
 import 'package:ispy_game/list_friends.dart';
@@ -69,10 +70,9 @@ class NavigationScaffold extends StatefulWidget {
 class _NavigationScaffoldState extends State<NavigationScaffold> {
   int screenIndex = 0;
   final screens = [
-    Home(),
+    const Home(),
     Scoring(),
-    Server(),
-    // SendImageScreen(),
+    const ShareImage(),
   ];
 
   void updateScreenIndex(int newScreenIndex) {
@@ -90,7 +90,8 @@ class _NavigationScaffoldState extends State<NavigationScaffold> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.chat), label: "Server"),
-          BottomNavigationBarItem(icon: Icon(Icons.score), label: "Score"),
+          // BottomNavigationBarItem(icon: Icon(Icons.score), label: "Score"),
+          BottomNavigationBarItem(icon: Icon(Icons.share), label: "share"),
 
           // BottomNavigationBarItem(icon: Icon(Icons.image), label: "SendImage"),
         ],
