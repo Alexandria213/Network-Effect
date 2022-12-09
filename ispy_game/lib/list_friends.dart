@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ispy_game/friends.dart';
+import 'package:ispy_game/nav.dart';
 
 typedef FriendListChatCallback = Function(Friend item);
 typedef FriendListEditCallback = Function(Friend item);

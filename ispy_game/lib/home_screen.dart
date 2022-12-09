@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ispy_game/scoring.dart';
 import 'package:ispy_game/server.dart';
+import 'package:ispy_game/nav.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});

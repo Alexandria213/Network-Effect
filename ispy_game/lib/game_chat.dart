@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:camera/camera.dart';
+// import 'package:camera/camera.dart';
 import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -168,4 +168,6 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
     );
   }
+
+  availableCameras() {}
 }
