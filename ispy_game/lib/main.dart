@@ -1,34 +1,3 @@
-// import 'package:flutter/material.dart';
-// import 'package:ispy_game/home_screen.dart';
-// import 'dart:async';
-// import 'dart:io';
-// import 'package:ispy_game/nav.dart';
-// // import 'package:camera/camera.dart';
-
-// main() {
-//   // Ensure that plugin services are initialized so that `availableCameras()`
-//   // can be called before `runApp()`
-//   WidgetsFlutterBinding.ensureInitialized();
-//   runApp(const EyeSpy());
-// }
-
-// class EyeSpy extends StatelessWidget {
-//   const EyeSpy({super.key});
-
-//   // This widget is the root of your application.
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Eye Spy',
-//       theme: ThemeData(
-//         // This is the theme of your application.
-//         primarySwatch: Colors.green,
-//       ),
-//       home: const Home(),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
 import 'package:ispy_game/share_image.dart';
 import 'package:ispy_game/home_screen.dart';
@@ -69,11 +38,7 @@ class NavigationScaffold extends StatefulWidget {
 
 class _NavigationScaffoldState extends State<NavigationScaffold> {
   int screenIndex = 0;
-  final screens = [
-    const Home(),
-    Scoring(),
-    const ShareImage(),
-  ];
+  final screens = [const Home(), Scoring(), const ShareImage(), Server()];
 
   void updateScreenIndex(int newScreenIndex) {
     setState(() {
@@ -89,9 +54,9 @@ class _NavigationScaffoldState extends State<NavigationScaffold> {
         currentIndex: screenIndex,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.chat), label: "Server"),
-          // BottomNavigationBarItem(icon: Icon(Icons.score), label: "Score"),
+          BottomNavigationBarItem(icon: Icon(Icons.score), label: "Scores"),
           BottomNavigationBarItem(icon: Icon(Icons.share), label: "share"),
+          // BottomNavigationBarItem(icon: Icon(Icons.chat), label: "Message&Images"),
 
           // BottomNavigationBarItem(icon: Icon(Icons.image), label: "SendImage"),
         ],
